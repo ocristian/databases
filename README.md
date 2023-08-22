@@ -17,6 +17,13 @@ SELECT pg_terminate_backend(pg_stat_activity.pid)
  WHERE pg_stat_activity.datname = 'database_name'
    AND pid <> pg_backend_pid();
 ```
+### Active databases per Owner
+```sql
+  SELECT d.datname AS database, u.usename AS owner
+    FROM pg_database d JOIN pg_user u ON d.datdba = u.usesysid
+   WHERE datname IN (SELECT datname FROM pg_stat_activity WHERE state is not null)
+ORDER BY datname;
+```
 
 ### TOP 10
 #### Time Consuming
