@@ -1,7 +1,20 @@
 # PostgreSQL Utils
 
+<!-- TOC depthFrom:2 -->
+- [Database](#database)
+  * [Activity](#activity)
+  * [Killing Active connections](#killing-active-connections)
+- [TOP 10](#top-10)
+  * [Time Consuming](#time-consuming)
+  * [MEM Consumption](#mem-consumption)
+- [Listing databases](#listing-databases)
+  * [Active databases per Owner](#active-databases-per-owner)
+<!-- /TOC -->
+
+<a name="database"></a>
 ## Database
 
+<a name="activity"></a>
 ### Activity
 ```sql
   SELECT distinct datname, count(*)
@@ -10,6 +23,7 @@
 GROUP BY datname
 ORDER BY 1;
 ```
+<a name="killing-active-connections"></a>
 ### Killing Active connections
 ```sql
 SELECT pg_terminate_backend(pg_stat_activity.pid)
@@ -17,15 +31,10 @@ SELECT pg_terminate_backend(pg_stat_activity.pid)
  WHERE pg_stat_activity.datname = 'database_name'
    AND pid <> pg_backend_pid();
 ```
-### Active databases per Owner
-```sql
-  SELECT d.datname AS database, u.usename AS owner
-    FROM pg_database d JOIN pg_user u ON d.datdba = u.usesysid
-   WHERE datname IN (SELECT datname FROM pg_stat_activity WHERE state is not null)
-ORDER BY datname;
-```
 
+<a name="top-10"></a>
 ### TOP 10
+<a name="#time-consuming"></a>
 #### Time Consuming
 ```sql
   SELECT userid::regrole as "user",
@@ -39,6 +48,7 @@ ORDER BY datname;
 ORDER BY mean_time DESC
    LIMIT 10;
 ```
+<a name="#mem-consumption"></a>
 #### MEM Consumption
 ```sql
   SELECT userid::regrole as "user",
@@ -53,12 +63,21 @@ ORDER BY (shared_blks_hit + shared_blks_dirtied) DESC
    LIMIT 10;
 ```
 
-
+<a name="#listing-databases"></a>
 ### Listing databases
 ```sql
 SELECT * FROM pg_database pd WHERE datallowconn;
 SELECT datname FROM pg_database pd WHERE datallowconn AND datname NOT IN ('rdsadmin', 'template1');
 ```
+<a name="#active-databases-per-owner"></a>
+#### Active databases per Owner
+```sql
+  SELECT d.datname AS database, u.usename AS owner
+    FROM pg_database d JOIN pg_user u ON d.datdba = u.usesysid
+   WHERE datname IN (SELECT datname FROM pg_stat_activity WHERE state is not null)
+ORDER BY datname;
+```
+
 ### Version
 ```sql
 SELECT version();
