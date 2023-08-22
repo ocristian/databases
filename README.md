@@ -9,6 +9,8 @@
   * [MEM Consumption](#mem-consumption)
 - [Listing databases](#listing-databases)
   * [Active databases per Owner](#active-databases-per-owner)
+- [Indexes](#indexes)
+- [Extensions](#extensions)
 <!-- /TOC -->
 
 <a name="database"></a>
@@ -91,6 +93,7 @@ SELECT current_user;
 [Troubleshooting PostGIS Extensions issues when upgrading Postgres](https://repost.aws/knowledge-center/rds-postgresql-upgrade-postgis)
 
 
+<a name="indexes"></a>
 ## Indexes
 
 ### List indexes
@@ -125,6 +128,7 @@ SELECT tabstats.schemaname AS schema_name,
 WHERE tabstats.schemaname = 'public'
 ```
 
+<a name="extensions"></a>
 ## Extensions
 
 ### Installed
