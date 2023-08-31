@@ -11,6 +11,11 @@
   * [Active databases per Owner](#active-databases-per-owner)
 - [Indexes](#indexes)
 - [Extensions](#extensions)
+  * [Create](#extensions-create)
+  * [Update](#extensions-update)
+  * [Delete](#extensions-delete)
+  * [List](#extensions-list)
+
 <!-- /TOC -->
 
 <a name="database"></a>
@@ -131,6 +136,33 @@ WHERE tabstats.schemaname = 'public'
 <a name="extensions"></a>
 ## Extensions
 
+### Create
+<a name="extensions-create"></a>
+```sql
+CREATE EXTENSION extension_name SCHEMA addons;
+```
+### Update
+<a name="extensions-update"></a>
+#### Upgrading Path
+```sql
+SELECT * FROM pg_extension_update_paths('extension_name') WHERE source='current_version_number' AND target NOT LIKE '%next%' AND source<target AND path LIKE '%--%';
+```
+#### To Specific version
+```sql
+ALTER EXTENSION extension_name UPDATE TO 'version_number';
+```
+#### To Last available version
+```sql
+ALTER EXTENSION extension_name UPDATE;
+```
+### Delete
+<a name="extensions-delete"></a>
+```sql
+DROP EXTENSION extension_name;
+```
+
+### List Extensions
+<a name="extensions-list"></a>
 ### Installed
 ```sql
 SELECT * FROM pg_available_extensions WHERE installed_version IS NOT NULL order by 1;
@@ -145,10 +177,10 @@ SELECT * FROM pg_available_extension_versions WHERE name LIKE '%pg_stat_statemen
 ```
 ### By Owner
 ```sql
-  SELECT n.nspname AS "Name", pg_catalog.pg_get_userbyid(n.nspowner) AS "Owner"
-    FROM pg_catalog.pg_namespace n
-   WHERE n.nspname !~ '^pg_' AND n.nspname <> 'information_schema'
-ORDER BY 1;
+SELECT e.extname AS "Extensions", n.nspname AS schema_name, u.usename AS "Owner"
+  FROM pg_extension e
+    JOIN pg_namespace n ON e.extnamespace = n.oid
+    JOIN pg_user u ON e.extowner = u.usesysid;
 ```
 ### By Schema
 ```sql
@@ -163,19 +195,7 @@ ORDER BY 1;
    WHERE e.extname LIKE '%postgis%'
 ORDER BY 1;
 ```
-### Updating
-#### Upgrading Path
-```sql
-SELECT * FROM pg_extension_update_paths('extension_name') WHERE source='current_version_number' AND target NOT LIKE '%next%' AND source<target AND path LIKE '%--%';
-```
-#### To Specific version
-```sql
-ALTER EXTENSION extension_name UPDATE TO 'version_number';
-```
-#### To Last available version
-```sql
-ALTER EXTENSION extension_name UPDATE;
-```
+
 
 #### PostGIS 
 * [Support Matrix](https://trac.osgeo.org/postgis/wiki/UsersWikiPostgreSQLPostGIS#PostGISSupportMatrix)
