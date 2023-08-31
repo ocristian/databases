@@ -136,13 +136,13 @@ WHERE tabstats.schemaname = 'public'
 <a name="extensions"></a>
 ## Extensions
 
-### Create
 <a name="extensions-create"></a>
+### Create
 ```sql
 CREATE EXTENSION extension_name SCHEMA addons;
 ```
-### Update
 <a name="extensions-update"></a>
+### Update
 #### Upgrading Path
 ```sql
 SELECT * FROM pg_extension_update_paths('extension_name') WHERE source='current_version_number' AND target NOT LIKE '%next%' AND source<target AND path LIKE '%--%';
@@ -155,14 +155,13 @@ ALTER EXTENSION extension_name UPDATE TO 'version_number';
 ```sql
 ALTER EXTENSION extension_name UPDATE;
 ```
-### Delete
 <a name="extensions-delete"></a>
+### Delete
 ```sql
 DROP EXTENSION extension_name;
 ```
-
-### List Extensions
 <a name="extensions-list"></a>
+### List Extensions
 ### Installed
 ```sql
 SELECT * FROM pg_available_extensions WHERE installed_version IS NOT NULL order by 1;
