@@ -47,14 +47,16 @@ SELECT pg_terminate_backend(pg_stat_activity.pid)
   SELECT userid::regrole as "user",
          datname as database,
          calls,
-         round(mean_time::numeric, 2) as "Avg Time (ms)",
-         round(total_time::numeric, 2) as "Total Time (ms)",
+         round(mean_exec_time::numeric, 2) as "Avg Time (ms)",
+         round(total_exec_time::numeric, 2) as "Total Time (ms)",
          query
     FROM pg_stat_statements join pg_database
             on pg_stat_statements.dbid = pg_database.oid
-ORDER BY mean_time DESC
+ORDER BY mean_exec_time DESC
    LIMIT 10;
 ```
+> For PG v12 and below, remove `exec` from `mean_exec_time` and `total_exec_time`
+
 <a name="#mem-consumption"></a>
 #### MEM Consumption
 ```sql
