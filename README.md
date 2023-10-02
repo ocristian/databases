@@ -126,13 +126,14 @@ SELECT * FROM pg_indexes WHERE schemaname ='public'
 ### Sequential scans
 * `seq_scan_count`: A high number of sequential scans may indicate that appropriate indexes are missing or underutilized.
 ```sql
-SELECT tabstats.schemaname AS schema_name,
-       tabstats.relname AS table_name,
-       tabstats.seq_scan AS seq_scan_count,
-       tabstats.idx_scan AS index_scan_count,
-       pg_size_pretty(pg_total_relation_size(tabstats.relid)) AS table_size
-  FROM pg_stat_all_tables AS tabstats
-WHERE tabstats.schemaname = 'public'
+  SELECT tabstats.schemaname AS schema_name,
+         tabstats.relname AS table_name,
+         tabstats.seq_scan AS seq_scan_count,
+         tabstats.idx_scan AS index_scan_count,
+         pg_size_pretty(pg_total_relation_size(tabstats.relid)) AS table_size
+    FROM pg_stat_all_tables AS tabstats
+   WHERE tabstats.schemaname = 'public'
+ORDER BY seq_scan_count DESC;
 ```
 
 <a name="extensions"></a>
