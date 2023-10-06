@@ -142,8 +142,23 @@ ORDER BY seq_scan_count DESC;
 <a name="extensions-create"></a>
 ### Create
 ```sql
-CREATE EXTENSION extension_name SCHEMA addons;
+CREATE EXTENSION extension_name;
 ```
+#### In a Schema
+```sql
+CREATE EXTENSION IF NOT EXISTS extension_name WITH SCHEMA schema_name;
+```
+
+#### Specific version
+```sql
+CREATE EXTENSION IF NOT EXISTS extension_name VERSION '0.0.1';
+```
+
+#### In a Schema and Specific version
+```sql
+CREATE EXTENSION IF NOT EXISTS extension_name WITH SCHEMA schema_name VERSION '0.0.1';
+```
+
 <a name="extensions-update"></a>
 ### Update
 #### Upgrading Path
