@@ -136,6 +136,11 @@ SELECT * FROM pg_indexes WHERE schemaname ='public'
 ORDER BY seq_scan_count DESC;
 ```
 
+### Create Index / ReIndex Progress Report
+[To follow the progress of Index/ReIndex](create-index-reindex-progress-report.md)
+
+
+
 <a name="extensions"></a>
 ## Extensions
 
