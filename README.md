@@ -137,7 +137,7 @@ ORDER BY seq_scan_count DESC;
 ```
 
 ### Create Index / ReIndex Progress Report
-[To follow the progress of Index/ReIndex](create-index-reindex-progress-report.md)
+[To follow the progress of Index/ReIndex](index/track-index-reindex-progress.md)
 
 
 
