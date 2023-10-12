@@ -11,9 +11,9 @@
   * [Active databases per Owner](#active-databases-per-owner)
 - [Indexes](#indexes)
   * [Listing Indexes](#listing-indexes)
-  * [Non Used Indexes](#non-used-indexes)
+  * [Non Used Indexes](#to-find-non-used-indexes)
   * [Missing Indexes](#missing-indexes)
-  * [Report Index/ReIndex Creation Progress](#report-indexes-creation-progress)
+  * [Report Index/ReIndex Creation Progress](#report-progress-on-creating-reindexing-indexes)
 - [Extensions](#extensions)
   * [Create](#extensions-create)
   * [Update](#extensions-update)
@@ -108,12 +108,12 @@ SELECT current_user;
 ## Indexes
 
 <a name="#listing-indexes"></a>
-### List indexes
+### Listing indexes
 ```sql
 SELECT * FROM pg_indexes WHERE schemaname ='public'
 ```
 
-<a name="#non-used-indexes"></a>
+<a name="#to-find-non-used-indexes"></a>
 ### To find non-used indexes
 * Consider deleting the Index if `index_scans_count` is very low
 ```sql
@@ -130,7 +130,7 @@ SELECT * FROM pg_indexes WHERE schemaname ='public'
 ```
 
 <a name="#missing-indexes"></a>
-### Sequential scans
+### Missing indexes
 * `seq_scan_count`: A high number of sequential scans may indicate that appropriate indexes are missing or underutilized.
 ```sql
   SELECT tabstats.schemaname AS schema_name,
@@ -143,8 +143,8 @@ SELECT * FROM pg_indexes WHERE schemaname ='public'
 ORDER BY seq_scan_count DESC;
 ```
 
-<a name="#report-indexes-creation-progress"></a>
-### Create Index / ReIndex Progress Report
+<a name="#report-progress-on-creating-reindexing-indexes"></a>
+### Report progress on creating reindexing indexes
 [To follow the progress of Index/ReIndex](indexes/track-index-reindex-progress.md)
 
 
